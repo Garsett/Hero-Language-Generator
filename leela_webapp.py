@@ -3,7 +3,7 @@ import random
 import json
 
 # ===================================================================
-# DEFINITIES
+# DEFINITIES EN DATA INLADEN
 # ===================================================================
 class HeroProfile:
     def __init__(self, name, age, country, occupation, gender):
@@ -13,9 +13,6 @@ class HeroProfile:
         self.occupation = occupation
         self.gender = gender
 
-# ===================================================================
-# DATA INLADEN UIT EXTERN BESTAND
-# ===================================================================
 def load_leerstof():
     """Laadt de lesstof uit het externe JSON-bestand."""
     with open('leerstof.json', 'r') as f:
@@ -25,14 +22,19 @@ def load_leerstof():
 leerstof_database = load_leerstof()
 
 # ===================================================================
-# DE OEFENING-GENERATORS (ONGEWIJZIGD)
+# DE OEFENING-GENERATORS - MET TABEL-ONDERSTEUNING
 # ===================================================================
 def generate_vocabulary_exercise(hero, niveau, thema):
-    # ... (Deze hele functie is exact hetzelfde als voorheen)
     data = leerstof_database[niveau]["themas"][thema]
     st.header(f"Les (Niveau {niveau}): {thema}", divider='rainbow')
     
-    st.subheader("1. Theorie"); st.info(data["uitleg"])
+    st.subheader("1. Theorie")
+    st.info(data["uitleg"])
+
+    # Controleer of er een tabel is en toon deze
+    if "tabel" in data:
+        st.markdown(data["tabel"])
+
     st.subheader("2. Woordenschat")
     col1, col2 = st.columns(2)
     with col1:
@@ -43,6 +45,7 @@ def generate_vocabulary_exercise(hero, niveau, thema):
         st.write("**Engels**")
         for en in data["vocab"].values():
             st.write(en)
+
     st.subheader("3. Praktische Oefening")
     st.write("Lees de volgende zinnen hardop:")
     for zin in data["oefenzinnen"]:
@@ -50,28 +53,29 @@ def generate_vocabulary_exercise(hero, niveau, thema):
         st.write(f"- {zin}")
 
 def generate_grammar_exercise(hero, niveau, onderwerp):
-    # ... (Deze hele functie is exact hetzelfde als voorheen)
     data = leerstof_database[niveau]["grammatica"][onderwerp]
     st.header(f"Les (Niveau {niveau}): {onderwerp}", divider='rainbow')
 
-    st.subheader("1. Theorie"); st.info(data["uitleg"])
+    st.subheader("1. Theorie")
+    st.info(data["uitleg"])
+    
     st.subheader("2. Praktische Oefening")
     st.write("Maak de zinnen af of zet de woorden in de juiste volgorde:")
     for i, zin in enumerate(data["oefening"]):
         zin = zin.replace("{naam}", hero.name)
         st.write(f"{i+1}. {zin}")
+        
     with st.expander("Klik hier voor de antwoorden"):
         antwoorden = [ant.replace("{naam}", hero.name) for ant in data["antwoorden"]]
         st.write(antwoorden)
 
 # ===================================================================
-# DE STREAMLIT INTERFACE (ONGEWIJZIGD)
+# DE STREAMLIT INTERFACE
 # ===================================================================
 st.set_page_config(page_title="Hero Language Generator", page_icon="🌸")
 st.title("🌸 Hero Language Generator 🌸")
 
 with st.sidebar:
-    # ... (De hele sidebar is exact hetzelfde als voorheen)
     st.header("1. Gegevens van de Student")
     gender = st.selectbox("Aanspreekvorm", ["vrouwelijk (ze/haar)", "mannelijk (hij/zijn)", "neutraal (die/hun)"])
     name = st.text_input("Naam", "Garsett")
@@ -93,7 +97,6 @@ with st.sidebar:
             gekozen_les = st.selectbox("Les", les_keuzes)
 
 if st.sidebar.button("🚀 Genereer Oefening! 🚀"):
-    # ... (Dit hele blok is exact hetzelfde als voorheen)
     hero = HeroProfile(name=name, age=age, country=country, occupation=occupation, gender=gender)
 
     if 'gekozen_les' in locals() and gekozen_les != "-- Kies een les --":
