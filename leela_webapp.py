@@ -16,47 +16,43 @@ def load_leerstof():
 leerstof_database = load_leerstof()
 
 # ===================================================================
-# DE OEFENING-GENERATORS - NU MET FLEXIBELE LESOPBOUW
+# DE OEFENING-GENERATORS - MET FIX VOOR NULL-WAARDEN
 # ===================================================================
 def generate_thema_exercise(hero, niveau, thema):
     data = leerstof_database[niveau]["themas"][thema]
     st.header(f"Les (Niveau {niveau}): {thema}", divider='rainbow')
 
-    # Bouw de les dynamisch op, onderdeel per onderdeel
     if "uitleg_sv" in data:
-        st.subheader("1. Theorie: Subject & Verbum")
-        st.info(data["uitleg_sv"])
-    
+        st.subheader("1. Theorie: Subject & Verbum"); st.info(data["uitleg_sv"])
     if "tabel_persoonlijk" in data:
         st.markdown(data["tabel_persoonlijk"])
-
     if "oefenzinnen_sv" in data:
         st.write("Lees de volgende zinnen hardop:")
         for zin in data["oefenzinnen_sv"]:
             zin = zin.replace("{naam}", hero.name).replace("{leeftijd}", str(hero.age)).replace("{land}", hero.country)
             st.write(f"- {zin}")
-
     if "vocab" in data:
         st.subheader("2. Woordenschat")
         col1, col2 = st.columns(2)
         with col1:
-            st.write("**Nederlands**"); [st.write(nl) for nl in data["vocab"].keys()]
+            st.write("**Nederlands**")
+            # --- DE FIX IS HIER ---
+            for nl in data["vocab"].keys():
+                st.write(nl)
         with col2:
-            st.write("**Engels**"); [st.write(en) for en in data["vocab"].values()]
-
+            st.write("**Engels**")
+            # --- EN HIER ---
+            for en in data["vocab"].values():
+                st.write(en)
     if "uitleg_bezittelijk" in data:
-        st.subheader("3. Theorie: Bezittelijke Voornaamwoorden")
-        st.info(data["uitleg_bezittelijk"])
-
+        st.subheader("3. Theorie: Bezittelijke Voornaamwoorden"); st.info(data["uitleg_bezittelijk"])
     if "tabel_bezittelijk" in data:
         st.markdown(data["tabel_bezittelijk"])
-    
     if "oefening_invul" in data:
         st.subheader("4. Praktische Oefening")
         st.write("Vul de juiste vorm in:")
         for i, zin in enumerate(data["oefening_invul"]):
             st.write(f"{i+1}. {zin}")
-        
         with st.expander("Klik hier voor de antwoorden"):
             st.write(data["antwoorden_invul"])
 
