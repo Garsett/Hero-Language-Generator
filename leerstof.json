@@ -1,0 +1,32 @@
+{
+    "A1": {
+        "themas": {
+            "👋 Kennismaken": {
+                "uitleg": "Om jezelf voor te stellen in het Nederlands, gebruik je eenvoudige zinnen. Je begint vaak met 'Ik ben...' of 'Mijn naam is...'. Daarna vertel je je leeftijd, waar je vandaan komt en wat je doet.",
+                "vocab": {"de naam": "name", "de leeftijd": "age", "de nationaliteit": "nationality", "het beroep": "profession", "de taal": "language", "komen uit": "to come from"},
+                "oefenzinnen": ["Mijn naam is {naam}.", "Ik ben {leeftijd} jaar oud.", "Ik kom uit {land}.", "Ik werk als {beroep}."]
+            },
+            "🏡 Familie & vrienden": {
+                "uitleg": "Praten over je familie en vrienden is een goede manier om te oefenen. Je leert de namen voor familieleden en gebruikt bezittelijke voornaamwoorden zoals 'mijn', 'zijn' en 'haar'.",
+                "vocab": {
+                    "de familie": "family", "de ouders": "parents", "de vader": "father", "de moeder": "mother",
+                    "de broer": "brother", "de zus": "sister", "de zoon": "son", "de dochter": "daughter",
+                    "een vriend": "a (male) friend", "een vriendin": "a (female) friend"
+                },
+                "oefenzinnen": ["Dit is mijn broer.", "De moeder van {naam} is lief.", "Haar zus woont in {land}."]
+            }
+        },
+        "grammatica": {
+            "📘 Persoonsvorm & onderwerp": {
+                "uitleg": "In een Nederlandse zin staat het onderwerp (wie/wat?) vaak vooraan, gevolgd door de persoonsvorm (het werkwoord). Voorbeeld: 'Ik werk'.",
+                "oefening": ["ik ... (werken)", "jij ... (wonen)", "{naam} ... (spreken)", "wij ... (leren)"],
+                "antwoorden": ["werk", "woont", "spreekt", "leren"]
+            },
+            "📘 Zinsvolgorde (S-V-O)": {
+                "uitleg": "De standaard zinsvolgorde is Onderwerp - Werkwoord - Object. Voorbeeld: Ik (S) drink (V) koffie (O).",
+                "oefening": ["(ik / koffie / drinken)", "(jij / een boek / lezen)", "({naam} / Nederlands / leren)"],
+                "antwoorden": ["Ik drink koffie.", "Jij leest een boek.", "{naam} leert Nederlands."]
+            }
+        }
+    }
+}
