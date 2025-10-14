@@ -4,11 +4,9 @@ import google.generativeai as genai
 # ===================================================================
 # CONFIGURATIE - Verbind de app met de AI-motor
 # ===================================================================
-# Configureer de API-sleutel die we in de 'Secrets' hebben opgeslagen
 try:
     genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
 except Exception as e:
-    # Vang de fout op als de API-sleutel niet is ingesteld
     st.error("API-sleutel niet gevonden. Zorg ervoor dat je de GOOGLE_API_KEY hebt ingesteld in de Streamlit Secrets.")
     st.stop()
 
@@ -18,10 +16,9 @@ except Exception as e:
 def generate_ai_lesson(niveau, les, hero):
     """Bouwt een prompt en roept de Gemini AI aan om een les te genereren."""
 
-    # Selecteer het Gemini-model
-    model = genai.GenerativeModel('gemini-pro')
+    # --- DE FIX IS HIER: We gebruiken het nieuwste, stabiele model ---
+    model = genai.GenerativeModel('gemini-1.5-pro-latest')
 
-    # Bouw de 'prompt' (de opdracht voor de AI)
     prompt = f"""
     Jij bent een vriendelijke en creatieve leraar Nederlands voor NT2-studenten.
     Jouw taak is om een korte, gepersonaliseerde en motiverende les te genereren op {niveau}-niveau.
@@ -44,7 +41,6 @@ def generate_ai_lesson(niveau, les, hero):
     Genereer nu de les.
     """
 
-    # Roep de AI aan en toon een wacht-animatie
     with st.spinner(f"✨ Magie in de maak... Ik genereer een les over '{les}' voor {hero['name']}..."):
         try:
             response = model.generate_content(prompt)
@@ -53,7 +49,7 @@ def generate_ai_lesson(niveau, les, hero):
             return f"Oeps, er ging iets mis bij het aanroepen van de AI: {e}"
 
 # ===================================================================
-# DE STREAMLIT INTERFACE - NU VEREENVOUDIGD
+# DE STREAMLIT INTERFACE (ONGEWIJZIGD)
 # ===================================================================
 st.set_page_config(page_title="Hero Language Generator", page_icon="🌸")
 st.title("🌸 Hero Language Generator 🌸")
@@ -69,9 +65,8 @@ with st.sidebar:
     st.markdown("---")
     st.header("2. Kies je Les")
     
-    gekozen_niveau = st.selectbox("Niveau", ["A1", "A2", "B1"]) # We kunnen hier makkelijk niveaus toevoegen
+    gekozen_niveau = st.selectbox("Niveau", ["A1", "A2", "B1"])
     
-    # Een simpele lijst van lessen. De AI weet wat hij met deze onderwerpen moet doen.
     les_onderwerpen = [
         "👋 Kennismaken (jezelf voorstellen)",
         "🏡 Familie & vrienden",
@@ -84,12 +79,10 @@ with st.sidebar:
     gekozen_les = st.selectbox("Kies een lesonderwerp", les_onderwerpen)
 
 if st.sidebar.button("🚀 Genereer Les met AI! 🚀"):
-    # Verzamel de studentgegevens in een dictionary
     hero_data = {
         "name": name, "age": age, "country": country, "occupation": occupation, "gender": gender
     }
     
-    # Genereer de les en toon het resultaat
     generated_lesson = generate_ai_lesson(gekozen_niveau, gekozen_les, hero_data)
     st.markdown(generated_lesson)
     
