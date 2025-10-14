@@ -1,120 +1,97 @@
 import streamlit as st
-import random
-import json
+import google.generativeai as genai
 
 # ===================================================================
-# DEFINITIES EN DATA INLADEN
+# CONFIGURATIE - Verbind de app met de AI-motor
 # ===================================================================
-class HeroProfile:
-    def __init__(self, name, age, country, occupation, gender):
-        self.name = name
-        self.age = age
-        self.country = country
-        self.occupation = occupation
-        self.gender = gender
-
-def load_leerstof():
-    """Laadt de lesstof uit het externe JSON-bestand."""
-    with open('leerstof.json', 'r', encoding='utf-8') as f:
-        return json.load(f)
-
-# Laad de database bij het starten van de app
-leerstof_database = load_leerstof()
+# Configureer de API-sleutel die we in de 'Secrets' hebben opgeslagen
+try:
+    genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
+except Exception as e:
+    # Vang de fout op als de API-sleutel niet is ingesteld
+    st.error("API-sleutel niet gevonden. Zorg ervoor dat je de GOOGLE_API_KEY hebt ingesteld in de Streamlit Secrets.")
+    st.stop()
 
 # ===================================================================
-# DE OEFENING-GENERATORS - MET FIX VOOR TABEL
+# DE NIEUWE AI-GENERATOR FUNCTIE
 # ===================================================================
-def generate_thema_exercise(hero, niveau, thema):
-    data = leerstof_database[niveau]["themas"][thema]
-    st.header(f"Les (Niveau {niveau}): {thema}", divider='rainbow')
+def generate_ai_lesson(niveau, les, hero):
+    """Bouwt een prompt en roept de Gemini AI aan om een les te genereren."""
 
-    if "uitleg_sv" in data:
-        st.subheader("1. Theorie: Subject & Verbum"); st.info(data["uitleg_sv"])
-    
-    if "tabel_persoonlijk" in data:
-        st.markdown(data["tabel_persoonlijk"])
+    # Selecteer het Gemini-model
+    model = genai.GenerativeModel('gemini-pro')
 
-    if "oefenzinnen_sv" in data:
-        st.write("Lees de volgende zinnen hardop:")
-        for zin in data["oefenzinnen_sv"]:
-            zin = zin.replace("{naam}", hero.name).replace("{leeftijd}", str(hero.age)).replace("{land}", hero.country)
-            st.write(f"- {zin}")
+    # Bouw de 'prompt' (de opdracht voor de AI)
+    prompt = f"""
+    Jij bent een vriendelijke en creatieve leraar Nederlands voor NT2-studenten.
+    Jouw taak is om een korte, gepersonaliseerde en motiverende les te genereren op {niveau}-niveau.
 
-    if "vocab" in data:
-        st.subheader("2. Woordenschat")
-        col1, col2 = st.columns(2)
-        with col1:
-            st.write("**Nederlands**")
-            for nl in data["vocab"].keys():
-                st.write(nl)
-        with col2:
-            st.write("**Engels**")
-            for en in data["vocab"].values():
-                st.write(en)
+    **Gegevens van de student:**
+    - Naam: {hero['name']}
+    - Leeftijd: {hero['age']}
+    - Land van herkomst: {hero['country']}
+    - Rol of Missie: {hero['occupation']}
 
-    if "uitleg_bezittelijk" in data:
-        st.subheader("3. Theorie: Bezittelijke Voornaamwoorden"); st.info(data["uitleg_bezittelijk"])
+    **Instructies voor de les:**
+    1.  **Lesonderwerp:** "{les}".
+    2.  **Structuur:** De les moet de volgende onderdelen bevatten, in deze volgorde:
+        - Een korte, duidelijke **Theorie** met NT2-termen (bv. subject, verbum).
+        - Een relevante **Woordenschat**-tabel (Nederlands/Engels).
+        - Een **Praktische Oefening** met 3-5 zinnen die relevant zijn voor de rol/missie van de student.
+    3.  **Toon:** De toon moet positief, aanmoedigend en creatief zijn, in de stijl van Leela (spel van zelfkennis) en levenskunst. Spreek de student direct aan met 'jij' en 'jouw'.
+    4.  **Opmaak:** Gebruik Markdown voor de opmaak. Gebruik headers (##), subheaders (###), vetgedrukte tekst en tabellen.
 
-    if "tabel_bezittelijk" in data:
-        # --- DE FIX IS HIER ---
-        # Personaliseer de tabel voordat je hem toont
-        gepersonaliseerde_tabel = data["tabel_bezittelijk"].replace("{beroep}", hero.occupation)
-        st.markdown(gepersonaliseerde_tabel)
-    
-    if "oefening_invul" in data:
-        st.subheader("4. Praktische Oefening")
-        st.write("Vul de juiste vorm in:")
-        for i, zin in enumerate(data["oefening_invul"]):
-            st.write(f"{i+1}. {zin}")
-        with st.expander("Klik hier voor de antwoorden"):
-            for i, antwoord in enumerate(data["antwoorden_invul"]):
-                st.markdown(f'{i+1}. <span style="color:darkgreen;">{antwoord}</span>', unsafe_allow_html=True)
+    Genereer nu de les.
+    """
 
-def generate_grammar_exercise(hero, niveau, onderwerp):
-    # (Deze functie is ongewijzigd)
-    data = leerstof_database[niveau]["grammatica"][onderwerp]
-    st.header(f"Les (Niveau {niveau}): {onderwerp}", divider='rainbow')
-    st.subheader("1. Theorie"); st.info(data["uitleg"])
-    st.subheader("2. Praktische Oefening")
-    st.write("Maak de zinnen af:")
-    for i, zin in enumerate(data["oefening"]):
-        zin = zin.replace("{naam}", hero.name)
-        st.write(f"{i+1}. {zin}")
-    with st.expander("Klik hier voor de antwoorden"):
-        for i, antwoord in enumerate(data["antwoorden"]):
-            st.markdown(f'{i+1}. <span style="color:darkgreen;">{antwoord}</span>', unsafe_allow_html=True)
+    # Roep de AI aan en toon een wacht-animatie
+    with st.spinner(f"✨ Magie in de maak... Ik genereer een les over '{les}' voor {hero['name']}..."):
+        try:
+            response = model.generate_content(prompt)
+            return response.text
+        except Exception as e:
+            return f"Oeps, er ging iets mis bij het aanroepen van de AI: {e}"
 
 # ===================================================================
-# DE STREAMLIT INTERFACE (ONGEWIJZIGD)
+# DE STREAMLIT INTERFACE - NU VEREENVOUDIGD
 # ===================================================================
 st.set_page_config(page_title="Hero Language Generator", page_icon="🌸")
 st.title("🌸 Hero Language Generator 🌸")
 
 with st.sidebar:
     st.header("1. Gegevens van de Student")
-    gender = st.selectbox("Aanspmreekvorm", ["vrouwelijk (ze/haar)", "mannelijk (hij/zijn)", "neutraal (die/hun)"])
+    gender = st.selectbox("Aanspreekvorm", ["vrouwelijk (ze/haar)", "mannelijk (hij/zijn)", "neutraal (die/hun)"])
     name = st.text_input("Naam", "Garsett")
     age = st.number_input("Leeftijd", min_value=1, max_value=120, value=62)
     country = st.text_input("Land van herkomst", "België")
     occupation = st.text_input("Rol of Missie", "leraar levenskunst")
+    
     st.markdown("---")
     st.header("2. Kies je Les")
-    gekozen_niveau = st.selectbox("Niveau", list(leerstof_database.keys()))
-    if gekozen_niveau:
-        type_keuzes = ["-- Kies een type --"] + list(leerstof_database[gekozen_niveau].keys())
-        gekozen_type = st.selectbox("Oefeningstype", type_keuzes)
-        if gekozen_type and gekozen_type != "-- Kies een type --":
-            les_keuzes = ["-- Kies een les --"] + list(leerstof_database[gekozen_niveau][gekozen_type].keys())
-            gekozen_les = st.selectbox("Les", les_keuzes)
+    
+    gekozen_niveau = st.selectbox("Niveau", ["A1", "A2", "B1"]) # We kunnen hier makkelijk niveaus toevoegen
+    
+    # Een simpele lijst van lessen. De AI weet wat hij met deze onderwerpen moet doen.
+    les_onderwerpen = [
+        "👋 Kennismaken (jezelf voorstellen)",
+        "🏡 Familie & vrienden",
+        "🕰️ De tijd (klok, dagen, seizoenen)",
+        "🛒 Winkelen (prijzen, vragen)",
+        "💼 Werk & Studie (dagelijkse taken)",
+        "📘 Grammatica: Subject & Verbum",
+        "📘 Grammatica: De/Het lidwoorden"
+    ]
+    gekozen_les = st.selectbox("Kies een lesonderwerp", les_onderwerpen)
 
-if st.sidebar.button("🚀 Genereer Oefening! 🚀"):
-    hero = HeroProfile(name=name, age=age, country=country, occupation=occupation, gender=gender)
-    if 'gekozen_les' in locals() and gekozen_les != "-- Kies een les --":
-        if gekozen_type == "themas":
-            generate_thema_exercise(hero, gekozen_niveau, gekozen_les)
-        elif gekozen_type == "grammatica":
-            generate_grammar_exercise(hero, gekozen_niveau, gekozen_les)
-    else:
-        st.warning("Maak alsjeblieft een volledige keuze in de sidebar.")
+if st.sidebar.button("🚀 Genereer Les met AI! 🚀"):
+    # Verzamel de studentgegevens in een dictionary
+    hero_data = {
+        "name": name, "age": age, "country": country, "occupation": occupation, "gender": gender
+    }
+    
+    # Genereer de les en toon het resultaat
+    generated_lesson = generate_ai_lesson(gekozen_niveau, gekozen_les, hero_data)
+    st.markdown(generated_lesson)
+    
 else:
-    st.info("Vul links je gegevens in, kies een les en klik op 'Genereer Oefening!'")
+    st.info("Vul links je gegevens in, kies een les en klik op de knop om jouw unieke AI-les te genereren!")
