@@ -2,9 +2,18 @@
     "A1": {
         "themas": {
             "👋 Kennismaken": {
-                "uitleg": "Om jezelf voor te stellen in het Nederlands, gebruik je eenvoudige zinnen. Je begint vaak met 'Ik ben...' of 'Mijn naam is...'. Daarna vertel je je leeftijd, waar je vandaan komt en wat je doet.",
-                "vocab": {"de naam": "name", "de leeftijd": "age", "de nationaliteit": "nationality", "het beroep": "profession", "de taal": "language", "komen uit": "to come from"},
-                "oefenzinnen": ["Mijn naam is {naam}.", "Ik ben {leeftijd} jaar oud.", "Ik kom uit {land}.", "Ik werk als {beroep}."]
+                "uitleg": "Om jezelf voor te stellen gebruik je eenvoudige zinnen. Hier leer je ook de bezittelijke voornaamwoorden, die aangeven van wie iets is.",
+                "vocab": {
+                    "de naam": "name", "de leeftijd": "age", "het land": "country", "het beroep": "profession",
+                    "mijn": "my", "jouw / je": "your (informal)", "zijn": "his", "haar": "her"
+                },
+                "oefenzinnen": [
+                    "Mijn naam is {naam}.",
+                    "Ik ben {leeftijd} jaar oud.",
+                    "Wat is jouw beroep?",
+                    "Zijn land is {land}.",
+                    "Haar naam is Fabienne."
+                ]
             },
             "🏡 Familie & vrienden": {
                 "uitleg": "Praten over je familie en vrienden is een goede manier om te oefenen. Je leert de namen voor familieleden en gebruikt bezittelijke voornaamwoorden zoals 'mijn', 'zijn' en 'haar'.",
