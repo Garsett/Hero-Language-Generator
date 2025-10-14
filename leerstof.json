@@ -2,10 +2,10 @@
     "A1": {
         "themas": {
             "👋 Kennismaken": {
-                "uitleg": "Om jezelf voor te stellen gebruik je eenvoudige zinnen. Hier leer je ook de bezittelijke voornaamwoorden, die aangeven van wie iets is.",
+                "uitleg": "Om jezelf voor te stellen gebruik je eenvoudige zinnen. Een belangrijk onderdeel hiervan zijn de bezittelijke voornaamwoorden, die aangeven van wie iets is. Hieronder zie je de belangrijkste vormen.",
+                "tabel": "| Persoon | Bezittelijk vnw. | Voorbeeldzin |\n|---|---|---|\n| ik | **mijn** | Dat is **mijn** boek. |\n| jij / je | **jouw / je** | Is dat **jouw** tas? |\n| hij | **zijn** | **Zijn** naam is Peter. |\n| zij | **haar** | **Haar** auto is rood. |",
                 "vocab": {
-                    "de naam": "name", "de leeftijd": "age", "het land": "country", "het beroep": "profession",
-                    "mijn": "my", "jouw / je": "your (informal)", "zijn": "his", "haar": "her"
+                    "de naam": "name", "de leeftijd": "age", "het land": "country", "het beroep": "profession"
                 },
                 "oefenzinnen": [
                     "Mijn naam is {naam}.",
