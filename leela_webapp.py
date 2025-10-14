@@ -7,16 +7,22 @@ import json
 # ===================================================================
 class HeroProfile:
     def __init__(self, name, age, country, occupation, gender):
-        self.name = name; self.age = age; self.country = country; self.occupation = occupation; self.gender = gender
+        self.name = name
+        self.age = age
+        self.country = country
+        self.occupation = occupation
+        self.gender = gender
 
 def load_leerstof():
+    """Laadt de lesstof uit het externe JSON-bestand."""
     with open('leerstof.json', 'r', encoding='utf-8') as f:
         return json.load(f)
 
+# Laad de database bij het starten van de app
 leerstof_database = load_leerstof()
 
 # ===================================================================
-# DE OEFENING-GENERATORS - MET OPGEMAAKTE ANTWOORDEN
+# DE OEFENING-GENERATORS - MET FIX VOOR TABEL
 # ===================================================================
 def generate_thema_exercise(hero, niveau, thema):
     data = leerstof_database[niveau]["themas"][thema]
@@ -24,13 +30,16 @@ def generate_thema_exercise(hero, niveau, thema):
 
     if "uitleg_sv" in data:
         st.subheader("1. Theorie: Subject & Verbum"); st.info(data["uitleg_sv"])
+    
     if "tabel_persoonlijk" in data:
         st.markdown(data["tabel_persoonlijk"])
+
     if "oefenzinnen_sv" in data:
         st.write("Lees de volgende zinnen hardop:")
         for zin in data["oefenzinnen_sv"]:
             zin = zin.replace("{naam}", hero.name).replace("{leeftijd}", str(hero.age)).replace("{land}", hero.country)
             st.write(f"- {zin}")
+
     if "vocab" in data:
         st.subheader("2. Woordenschat")
         col1, col2 = st.columns(2)
@@ -42,17 +51,22 @@ def generate_thema_exercise(hero, niveau, thema):
             st.write("**Engels**")
             for en in data["vocab"].values():
                 st.write(en)
+
     if "uitleg_bezittelijk" in data:
         st.subheader("3. Theorie: Bezittelijke Voornaamwoorden"); st.info(data["uitleg_bezittelijk"])
+
     if "tabel_bezittelijk" in data:
-        st.markdown(data["tabel_bezittelijk"])
+        # --- DE FIX IS HIER ---
+        # Personaliseer de tabel voordat je hem toont
+        gepersonaliseerde_tabel = data["tabel_bezittelijk"].replace("{beroep}", hero.occupation)
+        st.markdown(gepersonaliseerde_tabel)
+    
     if "oefening_invul" in data:
         st.subheader("4. Praktische Oefening")
         st.write("Vul de juiste vorm in:")
         for i, zin in enumerate(data["oefening_invul"]):
             st.write(f"{i+1}. {zin}")
         with st.expander("Klik hier voor de antwoorden"):
-            # --- DE AANPASSING IS HIER ---
             for i, antwoord in enumerate(data["antwoorden_invul"]):
                 st.markdown(f'{i+1}. <span style="color:darkgreen;">{antwoord}</span>', unsafe_allow_html=True)
 
@@ -67,7 +81,6 @@ def generate_grammar_exercise(hero, niveau, onderwerp):
         zin = zin.replace("{naam}", hero.name)
         st.write(f"{i+1}. {zin}")
     with st.expander("Klik hier voor de antwoorden"):
-        # --- DEZELFDE AANPASSING HIER VOOR DE CONSISTENTIE ---
         for i, antwoord in enumerate(data["antwoorden"]):
             st.markdown(f'{i+1}. <span style="color:darkgreen;">{antwoord}</span>', unsafe_allow_html=True)
 
@@ -79,7 +92,7 @@ st.title("🌸 Hero Language Generator 🌸")
 
 with st.sidebar:
     st.header("1. Gegevens van de Student")
-    gender = st.selectbox("Aanspreekvorm", ["vrouwelijk (ze/haar)", "mannelijk (hij/zijn)", "neutraal (die/hun)"])
+    gender = st.selectbox("Aanspmreekvorm", ["vrouwelijk (ze/haar)", "mannelijk (hij/zijn)", "neutraal (die/hun)"])
     name = st.text_input("Naam", "Garsett")
     age = st.number_input("Leeftijd", min_value=1, max_value=120, value=62)
     country = st.text_input("Land van herkomst", "België")
