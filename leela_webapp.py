@@ -13,7 +13,7 @@ class HeroProfile:
         self.gender = gender
 
 # ===================================================================
-# DE KENNISBANK (DATABASE) - KLAAR VOOR MEERDERE NIVEAUS
+# DE KENNISBANK (DATABASE)
 # ===================================================================
 leerstof_database = {
     "A1": {
@@ -46,11 +46,10 @@ leerstof_database = {
             },
         }
     }
-    # --- HIER KAN LATER A2, B1, ETC. KOMEN ---
 }
 
 # ===================================================================
-# DE OEFENING-GENERATORS - NU FLEXIBEL VOOR ELK NIVEAU
+# DE OEFENING-GENERATORS - NU MET DE FIX
 # ===================================================================
 def generate_vocabulary_exercise(hero, niveau, thema):
     data = leerstof_database[niveau]["themas"][thema]
@@ -60,9 +59,15 @@ def generate_vocabulary_exercise(hero, niveau, thema):
     st.subheader("2. Woordenschat")
     col1, col2 = st.columns(2)
     with col1:
-        st.write("**Nederlands**"); [st.write(nl) for nl in data["vocab"].keys()]
+        st.write("**Nederlands**")
+        # --- DE FIX IS HIER ---
+        for nl in data["vocab"].keys():
+            st.write(nl)
     with col2:
-        st.write("**Engels**"); [st.write(en) for en in data["vocab"].values()]
+        st.write("**Engels**")
+        # --- EN HIER ---
+        for en in data["vocab"].values():
+            st.write(en)
     st.subheader("3. Praktische Oefening")
     st.write("Lees de volgende zinnen hardop:")
     for zin in data["oefenzinnen"]:
@@ -84,7 +89,7 @@ def generate_grammar_exercise(hero, niveau, onderwerp):
         st.write(antwoorden)
 
 # ===================================================================
-# DE STREAMLIT INTERFACE - MET LOGISCHE HIËRARCHIE
+# DE STREAMLIT INTERFACE
 # ===================================================================
 st.set_page_config(page_title="Hero Language Generator", page_icon="🌸")
 st.title("🌸 Hero Language Generator 🌸")
@@ -100,15 +105,12 @@ with st.sidebar:
     st.markdown("---")
     st.header("2. Kies je Les")
     
-    # --- STAP 1: KIES NIVEAU ---
     gekozen_niveau = st.selectbox("Niveau", list(leerstof_database.keys()))
     
-    # --- STAP 2: KIES TYPE (Thema of Grammatica) ---
     if gekozen_niveau:
         type_keuzes = ["-- Kies een type --"] + list(leerstof_database[gekozen_niveau].keys())
         gekozen_type = st.selectbox("Oefeningstype", type_keuzes)
         
-        # --- STAP 3: KIES SPECIFIEKE LES ---
         if gekozen_type and gekozen_type != "-- Kies een type --":
             les_keuzes = ["-- Kies een les --"] + list(leerstof_database[gekozen_niveau][gekozen_type].keys())
             gekozen_les = st.selectbox("Les", les_keuzes)
@@ -116,7 +118,6 @@ with st.sidebar:
 if st.sidebar.button("🚀 Genereer Oefening! 🚀"):
     hero = HeroProfile(name=name, age=age, country=country, occupation=occupation, gender=gender)
 
-    # Controleer of alle keuzes zijn gemaakt
     if 'gekozen_les' in locals() and gekozen_les != "-- Kies een les --":
         if gekozen_type == "themas":
             generate_vocabulary_exercise(hero, gekozen_niveau, gekozen_les)
