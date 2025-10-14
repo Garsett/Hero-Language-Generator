@@ -15,14 +15,14 @@ class HeroProfile:
 
 def load_leerstof():
     """Laadt de lesstof uit het externe JSON-bestand."""
-    with open('leerstof.json', 'r') as f:
+    with open('leerstof.json', 'r', encoding='utf-8') as f:
         return json.load(f)
 
 # Laad de database bij het starten van de app
 leerstof_database = load_leerstof()
 
 # ===================================================================
-# DE OEFENING-GENERATORS - MET TABEL-ONDERSTEUNING
+# DE OEFENING-GENERATORS
 # ===================================================================
 def generate_vocabulary_exercise(hero, niveau, thema):
     data = leerstof_database[niveau]["themas"][thema]
@@ -31,7 +31,6 @@ def generate_vocabulary_exercise(hero, niveau, thema):
     st.subheader("1. Theorie")
     st.info(data["uitleg"])
 
-    # Controleer of er een tabel is en toon deze
     if "tabel" in data:
         st.markdown(data["tabel"])
 
@@ -70,7 +69,7 @@ def generate_grammar_exercise(hero, niveau, onderwerp):
         st.write(antwoorden)
 
 # ===================================================================
-# DE STREAMLIT INTERFACE
+# DE STREAMLIT INTERFACE - MET AANGEPASTE LABELS
 # ===================================================================
 st.set_page_config(page_title="Hero Language Generator", page_icon="🌸")
 st.title("🌸 Hero Language Generator 🌸")
@@ -80,8 +79,8 @@ with st.sidebar:
     gender = st.selectbox("Aanspreekvorm", ["vrouwelijk (ze/haar)", "mannelijk (hij/zijn)", "neutraal (die/hun)"])
     name = st.text_input("Naam", "Garsett")
     age = st.number_input("Leeftijd", min_value=1, max_value=120, value=62)
-    country = st.text_input("Land", "België")
-    occupation = st.text_input("Beroep", "leraar levenskunst")
+    country = st.text_input("Land van herkomst", "België")
+    occupation = st.text_input("Rol of Missie", "leraar levenskunst")
     
     st.markdown("---")
     st.header("2. Kies je Les")
