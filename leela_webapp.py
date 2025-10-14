@@ -16,8 +16,8 @@ except Exception as e:
 def generate_ai_lesson(niveau, les, hero):
     """Bouwt een prompt en roept de Gemini AI aan om een les te genereren."""
 
-    # --- DE DEFINITIEVE FIX IS HIER ---
-    model = genai.GenerativeModel('gemini-1.5-flash-latest')
+    # --- DE ALLERLAATSTE FIX: Het meest stabiele en universele model ---
+    model = genai.GenerativeModel('gemini-pro')
 
     prompt = f"""
     Jij bent een vriendelijke en creatieve leraar Nederlands voor NT2-studenten.
