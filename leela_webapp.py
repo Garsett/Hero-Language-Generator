@@ -1,5 +1,6 @@
 import streamlit as st
 import random
+import json
 
 # ===================================================================
 # DEFINITIES
@@ -13,45 +14,21 @@ class HeroProfile:
         self.gender = gender
 
 # ===================================================================
-# DE KENNISBANK (DATABASE)
+# DATA INLADEN UIT EXTERN BESTAND
 # ===================================================================
-leerstof_database = {
-    "A1": {
-        "themas": {
-            "👋 Kennismaken": {
-                "uitleg": "Om jezelf voor te stellen in het Nederlands, gebruik je eenvoudige zinnen. Je begint vaak met 'Ik ben...' of 'Mijn naam is...'. Daarna vertel je je leeftijd, waar je vandaan komt en wat je doet.",
-                "vocab": {"de naam": "name", "de leeftijd": "age", "de nationaliteit": "nationality", "het beroep": "profession", "de taal": "language", "komen uit": "to come from"},
-                "oefenzinnen": ["Mijn naam is {naam}.", "Ik ben {leeftijd} jaar oud.", "Ik kom uit {land}.", "Ik werk als {beroep}."]
-            },
-            "🏡 Familie & vrienden": {
-                "uitleg": "Praten over je familie en vrienden is een goede manier om te oefenen. Je leert de namen voor familieleden en gebruikt bezittelijke voornaamwoorden zoals 'mijn', 'zijn' en 'haar'.",
-                "vocab": {
-                    "de familie": "family", "de ouders": "parents", "de vader": "father", "de moeder": "mother",
-                    "de broer": "brother", "de zus": "sister", "de zoon": "son", "de dochter": "daughter",
-                    "een vriend": "a (male) friend", "een vriendin": "a (female) friend"
-                },
-                "oefenzinnen": ["Dit is mijn broer.", "De moeder van {naam} is lief.", "Haar zus woont in {land}."]
-            },
-        },
-        "grammatica": {
-            "📘 Persoonsvorm & onderwerp": {
-                "uitleg": "In een Nederlandse zin staat het onderwerp (wie/wat?) vaak vooraan, gevolgd door de persoonsvorm (het werkwoord). Voorbeeld: 'Ik werk'.",
-                "oefening": ["ik ... (werken)", "jij ... (wonen)", "{naam} ... (spreken)", "wij ... (leren)"],
-                "antwoorden": ["werk", "woont", "spreekt", "leren"]
-            },
-            "📘 Zinsvolgorde (S-V-O)": {
-                "uitleg": "De standaard zinsvolgorde is Onderwerp - Werkwoord - Object. Voorbeeld: Ik (S) drink (V) koffie (O).",
-                "oefening": ["(ik / koffie / drinken)", "(jij / een boek / lezen)", "({naam} / Nederlands / leren)"],
-                "antwoorden": ["Ik drink koffie.", "Jij leest een boek.", "{naam} leert Nederlands."]
-            },
-        }
-    }
-}
+def load_leerstof():
+    """Laadt de lesstof uit het externe JSON-bestand."""
+    with open('leerstof.json', 'r') as f:
+        return json.load(f)
+
+# Laad de database bij het starten van de app
+leerstof_database = load_leerstof()
 
 # ===================================================================
-# DE OEFENING-GENERATORS - NU MET DE FIX
+# DE OEFENING-GENERATORS (ONGEWIJZIGD)
 # ===================================================================
 def generate_vocabulary_exercise(hero, niveau, thema):
+    # ... (Deze hele functie is exact hetzelfde als voorheen)
     data = leerstof_database[niveau]["themas"][thema]
     st.header(f"Les (Niveau {niveau}): {thema}", divider='rainbow')
     
@@ -60,12 +37,10 @@ def generate_vocabulary_exercise(hero, niveau, thema):
     col1, col2 = st.columns(2)
     with col1:
         st.write("**Nederlands**")
-        # --- DE FIX IS HIER ---
         for nl in data["vocab"].keys():
             st.write(nl)
     with col2:
         st.write("**Engels**")
-        # --- EN HIER ---
         for en in data["vocab"].values():
             st.write(en)
     st.subheader("3. Praktische Oefening")
@@ -75,6 +50,7 @@ def generate_vocabulary_exercise(hero, niveau, thema):
         st.write(f"- {zin}")
 
 def generate_grammar_exercise(hero, niveau, onderwerp):
+    # ... (Deze hele functie is exact hetzelfde als voorheen)
     data = leerstof_database[niveau]["grammatica"][onderwerp]
     st.header(f"Les (Niveau {niveau}): {onderwerp}", divider='rainbow')
 
@@ -89,12 +65,13 @@ def generate_grammar_exercise(hero, niveau, onderwerp):
         st.write(antwoorden)
 
 # ===================================================================
-# DE STREAMLIT INTERFACE
+# DE STREAMLIT INTERFACE (ONGEWIJZIGD)
 # ===================================================================
 st.set_page_config(page_title="Hero Language Generator", page_icon="🌸")
 st.title("🌸 Hero Language Generator 🌸")
 
 with st.sidebar:
+    # ... (De hele sidebar is exact hetzelfde als voorheen)
     st.header("1. Gegevens van de Student")
     gender = st.selectbox("Aanspreekvorm", ["vrouwelijk (ze/haar)", "mannelijk (hij/zijn)", "neutraal (die/hun)"])
     name = st.text_input("Naam", "Garsett")
@@ -116,6 +93,7 @@ with st.sidebar:
             gekozen_les = st.selectbox("Les", les_keuzes)
 
 if st.sidebar.button("🚀 Genereer Oefening! 🚀"):
+    # ... (Dit hele blok is exact hetzelfde als voorheen)
     hero = HeroProfile(name=name, age=age, country=country, occupation=occupation, gender=gender)
 
     if 'gekozen_les' in locals() and gekozen_les != "-- Kies een les --":
