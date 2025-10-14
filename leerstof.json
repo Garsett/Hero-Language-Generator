@@ -4,44 +4,35 @@
             "👋 Kennismaken": {
                 "uitleg_sv": "**Subject + Verbum = Zin!** Dit is de basisformule. Het **subject** (persoon) vertelt wie of wat iets doet, en het **verbum** vertelt wat er gebeurt.",
                 "tabel_persoonlijk": "| Subject (NL) | Subject (EN) |\n|---|---|\n| ik | I |\n| jij / je | you |\n| hij / zij / het | he / she / it |\n| wij / we | we |\n| jullie | you (plural) |\n| zij / ze | they |",
-                "oefenzinnen_sv": [
-                    "Ik ben {naam}.",
-                    "Ik ben {leeftijd} jaar.",
-                    "Ik kom uit {land}.",
-                    "Jij bent mijn leraar Nederlands."
-                ],
-                "vocab": {
-                    "de naam": "name",
-                    "de leeftijd": "age",
-                    "het land": "country",
-                    "de rol": "the role"
-                },
+                "oefenzinnen_sv": ["Ik ben {naam}.", "Ik ben {leeftijd} jaar.", "Ik kom uit {land}.", "Jij bent mijn leraar Nederlands."],
+                "vocab": {"de naam": "name", "de leeftijd": "age", "het land": "country", "de rol": "the role"},
                 "uitleg_bezittelijk": "Bezittelijke voornaamwoorden geven aan van wie iets is. Let op: 'ons' gebruik je voor 'het'-woorden (ons huis) en 'onze' voor 'de'-woorden (onze auto).",
                 "tabel_bezittelijk": "| Subject | Bezittelijk vnw. | Voorbeeldzin |\n|---|---|---|\n| ik | **mijn** | Dat is **mijn** boek. |\n| jij / je | **jouw / je** | Is dat **jouw** tas? |\n| hij | **zijn** | **Zijn** naam is Peter. |\n| zij | **haar** | **Haar** auto is rood. |\n| wij / we | **ons / onze** | **Ons** huis is groot. **Onze** hond is lief. |\n| jullie | **jullie** | Waar is **jullie** leraar? |\n| zij / ze | **hun** | Dat is **hun** koffie. |",
                 "oefening_invul": [
                     "Ik heb een kat. ___ kat heet Mimi.",
                     "Lilla en Melvin drinken koffie. ___ koffie is lekker.",
                     "Jij hebt een mooie auto. ___ auto is nieuw.",
-                    "Wij hebben een huis in Frankrijk. ___ huis is oud."
+                    "Wij hebben een huis in Frankrijk. ___ huis is oud.",
+                    "De leraar zoekt een boek. Waar is ___ boek?",
+                    "Anna heeft een nieuwe fiets. ___ fiets is blauw.",
+                    "Hebben jullie de sleutels? Waar zijn ___ sleutels?",
+                    "De studenten hebben les. ___ lokaal is hier.",
+                    "Ik zie jou. Wat is ___ naam?",
+                    "Peter en Maria hebben een hond. ___ hond is klein."
                 ],
-                "antwoorden_invul": [
-                    "mijn",
-                    "hun",
-                    "jouw",
-                    "ons"
-                ]
+                "antwoorden_invul": ["mijn", "hun", "jouw", "ons", "zijn", "haar", "jullie", "hun", "jouw", "hun"]
             },
             "🏡 Familie & vrienden": {
-                "uitleg": "Praten over je familie en vrienden is een goede manier om te oefenen. Je leert de namen voor familieleden en gebruikt bezittelijke voornaamwoorden zoals 'mijn', 'zijn' en 'haar'.",
-                "vocab": {"de familie": "family", "de ouders": "parents", "de vader": "father", "de moeder": "mother", "de broer": "brother", "de zus": "sister"},
-                "oefenzinnen": ["Dit is mijn broer.", "De moeder van {naam} is lief.", "Haar zus woont in {land}."]
+                "uitleg": "Praten over je familie en vrienden is een goede manier om te oefenen.",
+                "vocab": {"de familie": "family", "de ouders": "parents", "de vader": "father", "de moeder": "mother"},
+                "oefenzinnen": ["Dit is mijn broer.", "De moeder van {naam} is lief."]
             }
         },
         "grammatica": {
             "📘 Subject & verbum": {
-                "uitleg": "In een Nederlandse zin staat het **subject** (wie/wat?) vaak vooraan, gevolgd door het **verbum** (het werkwoord). Voorbeeld: 'Ik werk'.",
-                "oefening": ["ik ... (werken)", "jij ... (wonen)", "{naam} ... (spreken)", "wij ... (leren)"],
-                "antwoorden": ["werk", "woont", "spreekt", "leren"]
+                "uitleg": "In een Nederlandse zin staat het **subject** (wie/wat?) vaak vooraan, gevolgd door het **verbum** (het werkwoord).",
+                "oefening": ["ik ... (werken)", "jij ... (wonen)", "{naam} ... (spreken)"],
+                "antwoorden": ["werk", "woont", "spreekt"]
             }
         }
     }
