@@ -7,7 +7,7 @@
                 "oefenzinnen_sv": ["Ik ben {naam}.", "Ik ben {leeftijd} jaar.", "Ik kom uit {land}.", "Jij bent mijn leraar Nederlands."],
                 "vocab": {"de naam": "name", "de leeftijd": "age", "het land": "country", "de rol": "the role"},
                 "uitleg_bezittelijk": "Bezittelijke voornaamwoorden geven aan van wie iets is. Let op: 'ons' gebruik je voor 'het'-woorden (ons huis) en 'onze' voor 'de'-woorden (onze auto).",
-                "tabel_bezittelijk": "| Subject | Bezittelijk vnw. | Voorbeeldzin |\n|---|---|---|\n| ik | **mijn** | Dat is **mijn** boek. |\n| jij / je | **jouw / je** | Is dat **jouw** tas? |\n| hij | **zijn** | **Zijn** naam is Peter. |\n| zij | **haar** | **Haar** auto is rood. |\n| wij / we | **ons / onze** | **Ons** huis is groot. **Onze** hond is lief. |\n| jullie | **jullie** | Waar is **jullie** leraar? |\n| zij / ze | **hun** | Dat is **hun** koffie. |",
+                "tabel_bezittelijk": "| Subject | Bezittelijk vnw. | Voorbeeldzin |\n|---|---|---|\n| ik | **mijn** | Ik doe **mijn** werk. |\n| jij / je | **jouw / je** | Jij zoekt **jouw** boek. |\n| hij | **zijn** | Hij heeft **zijn** pen. |\n| zij | **haar** | Zij leest **haar** e-mail. |\n| wij / we | **ons / onze** | Wij doen **onze** rol als {beroep}. |\n| jullie | **jullie** | Jullie hebben **jullie** taak. |\n| zij / ze | **hun** | Zij doen **hun** missie. |",
                 "oefening_invul": [
                     "Ik heb een kat. ___ kat heet Mimi.",
                     "Lilla en Melvin drinken koffie. ___ koffie is lekker.",
