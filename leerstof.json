@@ -2,7 +2,7 @@
     "A1": {
         "themas": {
             "👋 Kennismaken": {
-                "uitleg": "Om jezelf voor te stellen gebruik je eenvoudige zinnen. Een belangrijk onderdeel hiervan zijn de bezittelijke voornaamwoorden, die aangeven van wie iets is. Hieronder zie je de belangrijkste vormen.",
+                "uitleg": "Om jezelf voor te stellen gebruik je eenvoudige zinnen. De basis van elke zin is het **onderwerp** (wie of wat doet iets?) en het **werkwoord** (wat gebeurt er?). Bijvoorbeeld: **Ik** (onderwerp) **ben** (werkwoord) Garsett.\n\nEen ander belangrijk onderdeel zijn de bezittelijke voornaamwoorden, die aangeven van wie iets is.",
                 "tabel": "| Persoon | Bezittelijk vnw. | Voorbeeldzin |\n|---|---|---|\n| ik | **mijn** | Dat is **mijn** boek. |\n| jij / je | **jouw / je** | Is dat **jouw** tas? |\n| hij | **zijn** | **Zijn** naam is Peter. |\n| zij | **haar** | **Haar** auto is rood. |",
                 "vocab": {
                     "de naam": "name", "de leeftijd": "age", "het land": "country", "het beroep": "profession"
