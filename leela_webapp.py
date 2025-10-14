@@ -16,7 +16,7 @@ def load_leerstof():
 leerstof_database = load_leerstof()
 
 # ===================================================================
-# DE OEFENING-GENERATORS - MET FIX VOOR NULL-WAARDEN
+# DE OEFENING-GENERATORS - MET OPGEMAAKTE ANTWOORDEN
 # ===================================================================
 def generate_thema_exercise(hero, niveau, thema):
     data = leerstof_database[niveau]["themas"][thema]
@@ -36,12 +36,10 @@ def generate_thema_exercise(hero, niveau, thema):
         col1, col2 = st.columns(2)
         with col1:
             st.write("**Nederlands**")
-            # --- DE FIX IS HIER ---
             for nl in data["vocab"].keys():
                 st.write(nl)
         with col2:
             st.write("**Engels**")
-            # --- EN HIER ---
             for en in data["vocab"].values():
                 st.write(en)
     if "uitleg_bezittelijk" in data:
@@ -54,7 +52,9 @@ def generate_thema_exercise(hero, niveau, thema):
         for i, zin in enumerate(data["oefening_invul"]):
             st.write(f"{i+1}. {zin}")
         with st.expander("Klik hier voor de antwoorden"):
-            st.write(data["antwoorden_invul"])
+            # --- DE AANPASSING IS HIER ---
+            for i, antwoord in enumerate(data["antwoorden_invul"]):
+                st.markdown(f'{i+1}. <span style="color:darkgreen;">{antwoord}</span>', unsafe_allow_html=True)
 
 def generate_grammar_exercise(hero, niveau, onderwerp):
     # (Deze functie is ongewijzigd)
@@ -67,7 +67,9 @@ def generate_grammar_exercise(hero, niveau, onderwerp):
         zin = zin.replace("{naam}", hero.name)
         st.write(f"{i+1}. {zin}")
     with st.expander("Klik hier voor de antwoorden"):
-        st.write(data["antwoorden"])
+        # --- DEZELFDE AANPASSING HIER VOOR DE CONSISTENTIE ---
+        for i, antwoord in enumerate(data["antwoorden"]):
+            st.markdown(f'{i+1}. <span style="color:darkgreen;">{antwoord}</span>', unsafe_allow_html=True)
 
 # ===================================================================
 # DE STREAMLIT INTERFACE (ONGEWIJZIGD)
