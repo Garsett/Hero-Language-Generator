@@ -1,27 +1,28 @@
 import streamlit as st
-import google.generativeai as genai
+import openai
 
 # ===================================================================
-# CONFIGURATIE - Verbind de app met de AI-motor
+# CONFIGURATIE - Verbind de app met de OpenAI-motor
 # ===================================================================
 try:
-    genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
+    # Configureer de OpenAI API-sleutel uit de Streamlit Secrets
+    openai.api_key = st.secrets["OPENAI_API_KEY"]
 except Exception as e:
-    st.error("API-sleutel niet gevonden. Zorg ervoor dat je de GOOGLE_API_KEY hebt ingesteld in de Streamlit Secrets.")
+    st.error("OpenAI API-sleutel niet gevonden. Zorg ervoor dat je de OPENAI_API_KEY hebt ingesteld in de Streamlit Secrets.")
     st.stop()
 
 # ===================================================================
-# DE NIEUWE AI-GENERATOR FUNCTIE
+# DE NIEUWE AI-GENERATOR FUNCTIE (MET OPENAI)
 # ===================================================================
 def generate_ai_lesson(niveau, les, hero):
-    """Bouwt een prompt en roept de Gemini AI aan om een les te genereren."""
+    """Bouwt een prompt en roept de OpenAI AI aan om een les te genereren."""
 
-    # --- DE ALLERLAATSTE FIX: Het meest stabiele en universele model ---
-    model = genai.GenerativeModel('gemini-pro')
-
-    prompt = f"""
-    Jij bent een vriendelijke en creatieve leraar Nederlands voor NT2-studenten.
-    Jouw taak is om een korte, gepersonaliseerde en motiverende les te genereren op {niveau}-niveau.
+    # Bouw de 'prompt' (de opdracht voor de AI)
+    # Dit is een combinatie van een 'system prompt' (de rol) en een 'user prompt' (de vraag)
+    system_prompt = """Jij bent een vriendelijke en creatieve leraar Nederlands voor NT2-studenten. Jouw taak is om een korte, gepersonaliseerde en motiverende les te genereren. De toon moet positief, aanmoedigend en creatief zijn, in de stijl van Leela (spel van zelfkennis) en levenskunst. Spreek de student direct aan met 'jij' en 'jouw'. Gebruik Markdown voor de opmaak (headers, tabellen, etc.)."""
+    
+    user_prompt = f"""
+    Genereer een les op **{niveau}-niveau** over het onderwerp **"{les}"**.
 
     **Gegevens van de student:**
     - Naam: {hero['name']}
@@ -29,24 +30,25 @@ def generate_ai_lesson(niveau, les, hero):
     - Land van herkomst: {hero['country']}
     - Rol of Missie: {hero['occupation']}
 
-    **Instructies voor de les:**
-    1.  **Lesonderwerp:** "{les}".
-    2.  **Structuur:** De les moet de volgende onderdelen bevatten, in deze volgorde:
-        - Een korte, duidelijke **Theorie** met NT2-termen (bv. subject, verbum).
-        - Een relevante **Woordenschat**-tabel (Nederlands/Engels).
-        - Een **Praktische Oefening** met 3-5 zinnen die relevant zijn voor de rol/missie van de student.
-    3.  **Toon:** De toon moet positief, aanmoedigend en creatief zijn, in de stijl van Leela (spel van zelfkennis) en levenskunst. Spreek de student direct aan met 'jij' en 'jouw'.
-    4.  **Opmaak:** Gebruik Markdown voor de opmaak. Gebruik headers (##), subheaders (###), vetgedrukte tekst en tabellen.
-
-    Genereer nu de les.
+    **Structuur van de les:**
+    1.  Een korte, duidelijke **Theorie** met NT2-termen (bv. subject, verbum).
+    2.  Een relevante **Woordenschat**-tabel (Nederlands/Engels).
+    3.  Een **Praktische Oefening** met 3-5 zinnen die relevant zijn voor de rol/missie van de student.
     """
 
+    # Roep de AI aan en toon een wacht-animatie
     with st.spinner(f"✨ Magie in de maak... Ik genereer een les over '{les}' voor {hero['name']}..."):
         try:
-            response = model.generate_content(prompt)
-            return response.text
+            response = openai.chat.completions.create(
+                model="gpt-4o",  # We gebruiken een krachtig en modern model
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt}
+                ]
+            )
+            return response.choices[0].message.content
         except Exception as e:
-            return f"Oeps, er ging iets mis bij het aanroepen van de AI: {e}"
+            return f"Oeps, er ging iets mis bij het aanroepen van de OpenAI AI: {e}"
 
 # ===================================================================
 # DE STREAMLIT INTERFACE (ONGEWIJZIGD)
