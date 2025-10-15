@@ -15,7 +15,9 @@ except Exception as e:
 # ===================================================================
 def generate_ai_lesson(niveau, les, hero):
     """Bouwt een prompt en roept de Gemini AI aan om een les te genereren."""
-    model = genai.GenerativeModel('gemini-1.5-flash-latest')
+    
+    # --- DE ALLERLAATSTE FIX: Het meest stabiele en universele model ---
+    model = genai.GenerativeModel('gemini-pro')
 
     prompt = f"""
     Jij bent een vriendelijke en creatieve leraar Nederlands voor NT2-studenten.
@@ -59,12 +61,12 @@ with st.sidebar:
     age = st.number_input("Leeftijd", min_value=1, max_value=120, value=62)
     country = st.text_input("Land van herkomst", "België")
     occupation = st.text_input("Rol of Missie", "leraar levenskunst")
-
+    
     st.markdown("---")
     st.header("2. Kies je Les")
-
+    
     gekozen_niveau = st.selectbox("Niveau", ["A1", "A2", "B1"])
-
+    
     les_onderwerpen = [
         "👋 Kennismaken (jezelf voorstellen)",
         "🏡 Familie & vrienden",
@@ -80,9 +82,9 @@ if st.sidebar.button("🚀 Genereer Les met AI! 🚀"):
     hero_data = {
         "name": name, "age": age, "country": country, "occupation": occupation, "gender": gender
     }
-
+    
     generated_lesson = generate_ai_lesson(gekozen_niveau, gekozen_les, hero_data)
     st.markdown(generated_lesson)
-
+    
 else:
     st.info("Vul links je gegevens in, kies een les en klik op de knop om jouw unieke AI-les te genereren!")
