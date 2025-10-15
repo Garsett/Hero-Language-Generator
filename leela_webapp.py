@@ -11,11 +11,11 @@ except Exception as e:
     st.stop()
 
 # ===================================================================
-# DE AI-GENERATOR FUNCTIE (MET GEMINI)
+# DE AI-GENERATOR FUNCTIE (MET DE JUISTE MODELNAAM)
 # ===================================================================
 def generate_ai_lesson(niveau, les, hero):
     """Bouwt een prompt en roept de Gemini AI aan om een les te genereren."""
-    model = genai.GenerativeModel('gemini-pro')
+    model = genai.GenerativeModel('gemini-1.5-flash-latest')
 
     prompt = f"""
     Jij bent een vriendelijke en creatieve leraar Nederlands voor NT2-studenten.
