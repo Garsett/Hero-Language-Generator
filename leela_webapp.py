@@ -36,7 +36,6 @@ def generate_ai_lesson(niveau, les, hero):
     with st.spinner(f"✨ Magie in de maak... Ik genereer een les over '{les}' voor {hero['name']}..."):
         try:
             response = openai.chat.completions.create(
-                # --- DE FIX IS HIER: We gebruiken een universeel beschikbaar model ---
                 model="gpt-3.5-turbo",
                 messages=[
                     {"role": "system", "content": system_prompt},
@@ -82,7 +81,8 @@ if st.sidebar.button("🚀 Genereer Les met AI! 🚀"):
         "name": name, "age": age, "country": country, "occupation": occupation, "gender": gender
     }
     
-    generated_lesson = generate_ai_lesson(gekozen_niveau, les_onderwerpen[0]) # Start met de eerste les
+    # --- DE FIX IS HIER: We geven nu alle 3 de argumenten correct door ---
+    generated_lesson = generate_ai_lesson(gekozen_niveau, gekozen_les, hero_data)
     st.markdown(generated_lesson)
     
 else:
