@@ -5,7 +5,6 @@ import openai
 # CONFIGURATIE - Verbind de app met de OpenAI-motor
 # ===================================================================
 try:
-    # Configureer de OpenAI API-sleutel uit de Streamlit Secrets
     openai.api_key = st.secrets["OPENAI_API_KEY"]
 except Exception as e:
     st.error("OpenAI API-sleutel niet gevonden. Zorg ervoor dat je de OPENAI_API_KEY hebt ingesteld in de Streamlit Secrets.")
@@ -17,8 +16,6 @@ except Exception as e:
 def generate_ai_lesson(niveau, les, hero):
     """Bouwt een prompt en roept de OpenAI AI aan om een les te genereren."""
 
-    # Bouw de 'prompt' (de opdracht voor de AI)
-    # Dit is een combinatie van een 'system prompt' (de rol) en een 'user prompt' (de vraag)
     system_prompt = """Jij bent een vriendelijke en creatieve leraar Nederlands voor NT2-studenten. Jouw taak is om een korte, gepersonaliseerde en motiverende les te genereren. De toon moet positief, aanmoedigend en creatief zijn, in de stijl van Leela (spel van zelfkennis) en levenskunst. Spreek de student direct aan met 'jij' en 'jouw'. Gebruik Markdown voor de opmaak (headers, tabellen, etc.)."""
     
     user_prompt = f"""
@@ -36,11 +33,11 @@ def generate_ai_lesson(niveau, les, hero):
     3.  Een **Praktische Oefening** met 3-5 zinnen die relevant zijn voor de rol/missie van de student.
     """
 
-    # Roep de AI aan en toon een wacht-animatie
     with st.spinner(f"✨ Magie in de maak... Ik genereer een les over '{les}' voor {hero['name']}..."):
         try:
             response = openai.chat.completions.create(
-                model="gpt-4o",  # We gebruiken een krachtig en modern model
+                # --- DE FIX IS HIER: We gebruiken een universeel beschikbaar model ---
+                model="gpt-3.5-turbo",
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt}
@@ -85,7 +82,7 @@ if st.sidebar.button("🚀 Genereer Les met AI! 🚀"):
         "name": name, "age": age, "country": country, "occupation": occupation, "gender": gender
     }
     
-    generated_lesson = generate_ai_lesson(gekozen_niveau, gekozen_les, hero_data)
+    generated_lesson = generate_ai_lesson(gekozen_niveau, les_onderwerpen[0]) # Start met de eerste les
     st.markdown(generated_lesson)
     
 else:
